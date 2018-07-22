@@ -44,7 +44,7 @@ module.exports = class extends StaticServer {
     this.clients = this.clients.filter(c => c !== client)
   }
 
-  start(port) {
+  start(port = 2333) {
     if (this.server) {
       this.trigger({
         event: 'message',
