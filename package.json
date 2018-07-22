@@ -1,0 +1,33 @@
+{
+  "name": "pavane",
+  "version": "0.1.0",
+  "description": "LiveReload Server width config",
+  "main": "index.js",
+  "scripts": {
+    "test:lint": "eslint ."
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/fratercula/pavane.git"
+  },
+  "keywords": [
+    "livereload",
+    "server"
+  ],
+  "author": "LoeiFy@gmail.com",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/fratercula/pavane/issues"
+  },
+  "homepage": "https://github.com/fratercula/pavane#readme",
+  "dependencies": {
+    "chokidar": "^2.0.4",
+    "mime": "^2.3.1",
+    "ws": "^5.2.2"
+  },
+  "devDependencies": {
+    "eslint": "^5.2.0",
+    "eslint-config-airbnb-base": "^13.0.0",
+    "eslint-plugin-import": "^2.13.0"
+  }
+}
