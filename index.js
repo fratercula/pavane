@@ -1,4 +1,4 @@
-const { watch } = require('chokidar')
+const chokidar = require('chokidar')
 const { Server } = require('ws')
 const StaticServer = require('./lib/server')
 const trigger = require('./lib/trigger')
@@ -53,10 +53,13 @@ module.exports = class extends StaticServer {
       return
     }
 
-    this.watcher = watch(this.watches, {
+    this.server = this.create(port)
+
+    this.watcher = chokidar.watch(this.watchs, {
       ignored: /(^|[/\\])\../,
       ignoreInitial: true,
     })
+
     this.watcher.on('all', (event, filePath) => {
       clearTimeout(this.timer)
       this.timer = setTimeout(() => {
@@ -69,8 +72,6 @@ module.exports = class extends StaticServer {
       })
     })
 
-    this.server = this.create(port)
-
     this.ws = new Server({ server: this.server })
     this.ws.on('connection', (client) => {
       client.on('close', () => this.removeClient(client))
@@ -80,7 +81,7 @@ module.exports = class extends StaticServer {
 
     this.trigger({
       event: 'message',
-      message: `Server running: http://127.0.0.1:${port}/\n  CTRL + C to shutdown`,
+      message: `Server running: http://127.0.0.1:${port}\n  CTRL + C to shutdown`,
     })
   }
 }

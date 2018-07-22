@@ -12,10 +12,12 @@ if (c) {
 
   try {
     // eslint-disable-next-line global-require, import/no-dynamic-require
-    server.trigger = require(join(process.cwd(), config))
+    server.onChange = require(join(process.cwd(), config))
   } catch ({ message }) {
     global.console.log(message)
   }
 }
 
-server.start(p)
+const port = Number(p)
+
+server.start(port || undefined)
