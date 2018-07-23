@@ -20,7 +20,7 @@ module.exports = class extends StaticServer {
     this.trigger = trigger
   }
 
-  set onChange(fn) {
+  set listener(fn) {
     if (typeof fn === 'function') {
       this.trigger = fn
     }

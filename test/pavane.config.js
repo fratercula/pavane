@@ -1,10 +1,22 @@
+const { extname } = require('path')
+
 module.exports = (args) => {
   const {
-    message,
     event,
     filePath,
-    clients,
+    message = '',
+    clients = [],
   } = args
-  console.log(message)
-  console.log(event)
+  const { log } = global.console
+
+  if (event === 'message') {
+    log(message)
+    return
+  }
+
+  const ext = extname(filePath)
+  const msg = ext === '.css' ? 'css' : 'reload'
+
+  clients.forEach(client => client.send(msg))
+  log(`${event} ${filePath}`)
 }

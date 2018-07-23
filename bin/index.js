@@ -6,18 +6,17 @@ const Server = require('../')
 
 const server = new Server()
 const { p, c } = minimist(process.argv.slice(2))
+const port = Number(p)
 
 if (c) {
   const config = c === true ? 'pavane.config.js' : c
 
   try {
     // eslint-disable-next-line global-require, import/no-dynamic-require
-    server.onChange = require(join(process.cwd(), config))
+    server.listener = require(join(process.cwd(), config))
   } catch ({ message }) {
     global.console.log(message)
   }
 }
-
-const port = Number(p)
 
 server.start(port || undefined)
