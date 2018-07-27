@@ -1,7 +1,7 @@
 const { extname } = require('path')
 
 module.exports = {
-  watchs: ['*.js', '*.css', '*.html', '**/*.html'],
+  watches: ['*.js', '*.css', '*.html', '**/*.html'],
   publics: __dirname,
   port: 2222,
   listener(args) {

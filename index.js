@@ -5,9 +5,9 @@ const trigger = require('./lib/trigger')
 const defaultParams = require('./lib/params')
 
 module.exports = class extends StaticServer {
-  constructor(watchs = process.cwd(), publics) {
+  constructor(watches = process.cwd(), publics) {
     super(publics)
-    this.watchs = watchs
+    this.watches = watches
     this.initialize()
   }
 
@@ -62,7 +62,7 @@ module.exports = class extends StaticServer {
 
     this.server = this.create(port)
 
-    this.watcher = chokidar.watch(this.watchs, {
+    this.watcher = chokidar.watch(this.watches, {
       ignored: /(^|[/\\])\../,
       ignoreInitial: true,
     })

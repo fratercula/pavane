@@ -4,16 +4,26 @@ const { join } = require('path')
 const minimist = require('minimist')
 const Server = require('../')
 
-const server = new Server()
 const { p, c } = minimist(process.argv.slice(2))
-const port = Number(p)
+
+let server = new Server()
+let port = p === true ? undefined : Number(p)
 
 if (c) {
-  const config = c === true ? 'pavane.config.js' : c
-
   try {
+    const {
+      watches,
+      publics,
+      port: pt,
+      listener,
     // eslint-disable-next-line global-require, import/no-dynamic-require
-    server.listener = require(join(process.cwd(), config))
+    } = require(join(process.cwd(), 'pavane.config.js'))
+
+    server = new Server(watches, publics)
+    port = Number(pt)
+    if (listener) {
+      server.listener = listener
+    }
   } catch ({ message }) {
     global.console.log(message)
   }
