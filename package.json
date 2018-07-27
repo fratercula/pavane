@@ -1,8 +1,9 @@
 {
   "name": "pavane",
   "version": "0.1.0",
-  "description": "LiveReload Server width config",
+  "description": "LiveReload Server",
   "main": "index.js",
+  "preferGlobal": true,
   "bin": {
     "pavane": "./bin/index.js",
     "pv": "./bin/index.js"

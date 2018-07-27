@@ -2,6 +2,7 @@ const chokidar = require('chokidar')
 const { Server } = require('ws')
 const StaticServer = require('./lib/server')
 const trigger = require('./lib/trigger')
+const defaultParams = require('./lib/params')
 
 module.exports = class extends StaticServer {
   constructor(watchs = process.cwd(), publics) {
@@ -42,12 +43,18 @@ module.exports = class extends StaticServer {
 
   removeClient(client) {
     this.clients = this.clients.filter(c => c !== client)
+    this.trigger({
+      ...defaultParams,
+      event: 'info',
+      message: `Current clients: ${this.clients.length}`,
+    })
   }
 
   start(port = 2333) {
     if (this.server) {
       this.trigger({
-        event: 'message',
+        ...defaultParams,
+        event: 'info',
         message: 'The server is running...',
       })
       return
@@ -63,11 +70,17 @@ module.exports = class extends StaticServer {
     this.watcher.on('all', (event, filePath) => {
       clearTimeout(this.timer)
       this.timer = setTimeout(() => {
-        this.current = { event, filePath }
+        this.current = { event, path: filePath }
         this.trigger({
           event,
-          filePath,
-          clients: this.clients,
+          path: filePath,
+          message: '',
+          reloadCss: () => {
+            this.clients.forEach(client => client.send('css'))
+          },
+          reloadPage: () => {
+            this.clients.forEach(client => client.send('reload'))
+          },
         })
       })
     })
@@ -77,10 +90,16 @@ module.exports = class extends StaticServer {
       client.on('close', () => this.removeClient(client))
       client.on('error', () => this.removeClient(client))
       this.clients.push(client)
+      this.trigger({
+        ...defaultParams,
+        event: 'info',
+        message: `Current clients: ${this.clients.length}`,
+      })
     })
 
     this.trigger({
-      event: 'message',
+      ...defaultParams,
+      event: 'info',
       message: `Server running: http://127.0.0.1:${port}\n  CTRL + C to shutdown`,
     })
   }
