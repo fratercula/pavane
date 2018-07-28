@@ -71,9 +71,9 @@ console.log(server.status)
 */
 ```
 
-### CLI Use
+### CLI
 
-1. default
+#### default
 
 ```bash
 $ pavane
@@ -82,7 +82,7 @@ $ pavane
 $ pv
 ```
 
-2. custom server port
+#### custom server port
 
 ```bash
 $ pavane -p 2000
@@ -91,7 +91,7 @@ $ pavane -p 2000
 $ pv -p 2222
 ```
 
-3. use config
+#### use config
 
 setup `pavane.config.js`
 
@@ -131,7 +131,39 @@ module.exports = {
 ```
 
 ```bash
+# start width config
 $ pavene -c
+
+# or
+$ pv -c
+```
+
+## Development
+
+```bash
+$ npm start
+```
+
+#### lint
+
+```bash
+$ npm run test:lint
+```
+
+#### test
+
+```bash
+$ npm t
+```
+
+#### cli dev
+
+```bash
+# port
+$ cd test && node ../bin/index.js -p 2000
+
+# config
+$ cd test && node ../bin/index.js -c
 ```
 
 ## License

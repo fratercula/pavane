@@ -1,6 +1,6 @@
 {
   "name": "pavane",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "description": "LiveReload Server",
   "main": "index.js",
   "preferGlobal": true,
@@ -9,6 +9,7 @@
     "pv": "./bin/index.js"
   },
   "scripts": {
+    "start": "cd test && node ../bin/index.js",
     "test": "npm run test:lint && npm run test:cover",
     "test:unit": "mocha --reporter dot --require intelli-espower-loader ./test/test.js",
     "test:cover": "istanbul cover --print both _mocha ./test/test.js",
