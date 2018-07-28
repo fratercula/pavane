@@ -9,6 +9,9 @@
     "pv": "./bin/index.js"
   },
   "scripts": {
+    "test": "npm run test:lint && npm run test:cover",
+    "test:unit": "mocha --reporter dot --require intelli-espower-loader ./test/test.js",
+    "test:cover": "istanbul cover --print both _mocha ./test/test.js",
     "test:lint": "eslint ."
   },
   "repository": {
@@ -36,7 +39,10 @@
     "eslint-config-airbnb-base": "^13.0.0",
     "eslint-plugin-import": "^2.13.0",
     "intelli-espower-loader": "^1.0.1",
+    "istanbul": "^1.1.0-alpha.1",
     "mocha": "^5.2.0",
-    "power-assert": "^1.6.0"
+    "power-assert": "^1.6.0",
+    "puppeteer": "^1.6.1",
+    "sinon": "^6.1.4"
   }
 }
