@@ -70,3 +70,70 @@ console.log(server.status)
 }
 */
 ```
+
+### CLI Use
+
+1. default
+
+```bash
+$ pavane
+
+# or
+$ pv
+```
+
+2. custom server port
+
+```bash
+$ pavane -p 2000
+
+# or
+$ pv -p 2222
+```
+
+3. use config
+
+setup `pavane.config.js`
+
+```js
+const { extname } = require('path')
+
+module.exports = {
+  watches: ['*.js', '*.css', '*.html', '**/*.html'],
+  publics: __dirname,
+  port: 2222, // server port
+  listener(args) {
+    const {
+      event,
+      path,
+      message,
+      reloadCss,
+      reloadPage,
+    } = args
+    const { log } = global.console
+
+    if (event === 'info') {
+      log(message)
+      return
+    }
+
+    const ext = extname(path)
+
+    if (ext === '.css') {
+      reloadCss()
+    } else {
+      reloadPage()
+    }
+
+    log(`${event} ${path}`)
+  }
+}
+```
+
+```bash
+$ pavene -c
+```
+
+## License
+
+MIT
