@@ -143,6 +143,15 @@ $ pavane -c
 $ pv -c
 ```
 
+### Use on other server
+
+if your web application base on other server (python server, php server ...), add this `script` in your html template
+
+```html
+<!-- if the server port is 2333 -->
+<script src="http://127.0.0.1:2333/_.js"></script>
+```
+
 ## Development
 
 ```bash

@@ -82,7 +82,7 @@ module.exports = class extends StaticServer {
             this.clients.forEach(client => client.send('reload'))
           },
         })
-      })
+      }, 100)
     })
 
     this.ws = new Server({ server: this.server })

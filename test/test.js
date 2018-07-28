@@ -61,6 +61,11 @@ describe('pavane', () => {
     server.close()
 
     server.start()
+    code = await request('/_.js')
+    assert(code === 200)
+    server.close()
+
+    server.start()
     code = await request()
     assert(code === 200)
 

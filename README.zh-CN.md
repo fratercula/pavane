@@ -138,6 +138,15 @@ $ pavane -c
 $ pv -c
 ```
 
+### 在其他服务器上使用
+
+如果你的 web 应用是 python，php 或者其他产生的 web 服务，可以添加下面的 script 到你的应用 html 模板上
+
+```html
+<!-- 假设当前启动的服务端口是 2333 -->
+<script src="http://127.0.0.1:2333/_.js"></script>
+```
+
 ## 开发
 
 ```bash
