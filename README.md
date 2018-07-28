@@ -1,5 +1,8 @@
 # Pavane
 
+[![Build Status](https://travis-ci.org/fratercula/pavane.svg?branch=master)](https://travis-ci.org/fratercula/pavane)
+[![codecov](https://codecov.io/gh/fratercula/pavane/branch/master/graph/badge.svg)](https://codecov.io/gh/fratercula/pavane)
+
 LiveReload Server
 
 ## Install
@@ -132,7 +135,7 @@ module.exports = {
 
 ```bash
 # start width config
-$ pavene -c
+$ pavane -c
 
 # or
 $ pv -c
