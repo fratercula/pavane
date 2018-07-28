@@ -1,37 +1,32 @@
 # Pavane
 
-[![Build Status](https://travis-ci.org/fratercula/pavane.svg?branch=master)](https://travis-ci.org/fratercula/pavane)
-[![codecov](https://codecov.io/gh/fratercula/pavane/branch/master/graph/badge.svg)](https://codecov.io/gh/fratercula/pavane)
-
 LiveReload Server
 
-[中文文档](README.zh-CN.md)
-
-## Install
+## 安装
 
 ```bash
 $ npm i pavane -D
 
-# cli
+# 全局
 $ npm i pavane -g
 ```
 
-## Usage
+## 使用
 
 ```js
 const { join, extname } = require('path')
 const Pavane = require('pavane')
 
 /*
-  watch path
-  file, dir, glob, or array
-  default: process.cwd()
+  监听目录
+  文件, 目录, glob 匹配, 或者 数组
+  默认: 当前运行目录
 */
 const watches = join(process.cwd(), 'src')
 
 /*
-  server static files path
-  default: process.cwd()
+  静态资源目录
+  默认: 当前运行目录
 */
 const publics = __dirname
 
@@ -39,33 +34,33 @@ const server = new Pavane(watches, publics)
 
 server.listener = (args) => {
   const {
-    event,        // 'add', 'change', 'info' ...
-    path,         // file path
-    message,      // server message
-    reloadCss,    // trigger client reload css
-    reloadPage,   // trigger client reload page
+    event,        // 文件信息 'add', 'change', 或者服务器信息 'info' ...
+    path,         // 修改路径，当事件为 'info', 为空
+    message,      // 服务器信息，如果事件为 'info', 此时为空
+    reloadCss,    // 触发客户端 css 重置
+    reloadPage,   // 触发客户端刷新页面
   } = args
   const { log } = global.console
 
   if (event === 'info') {
-    log(message)  // log server message
+    log(message)  // 输出服务器信息
     return
   }
 
   const ext = extname(path)
 
   if (ext === '.css') {
-    reloadCss()   // reload css
+    reloadCss()   // 重置 css
   } else {
-    reloadPage()  // reload page
+    reloadPage()  // 刷新页面
   }
 
-  log(`${event} ${path}`) // log current message
+  log(`${event} ${path}`) // 输出当前信息
 }
 
-server.start(2222) // default 2333
+server.start(2222) // 默认端口 2333
 
-// get server status
+// 获取当前服务器状态
 console.log(server.status)
 /*
 {
@@ -76,29 +71,29 @@ console.log(server.status)
 */
 ```
 
-### CLI
+### CLI 使用
 
-#### default
+#### 默认
 
 ```bash
 $ pavane
 
-# or
+# 或者
 $ pv
 ```
 
-#### custom server port
+#### 自定义端口
 
 ```bash
 $ pavane -p 2000
 
-# or
+# 或者
 $ pv -p 2222
 ```
 
-#### use config
+#### 使用配置文件
 
-setup `pavane.config.js`
+新建 `pavane.config.js`
 
 ```js
 const { extname } = require('path')
@@ -136,14 +131,14 @@ module.exports = {
 ```
 
 ```bash
-# start width config
+# 使用配置启动
 $ pavane -c
 
-# or
+# 或者
 $ pv -c
 ```
 
-## Development
+## 开发
 
 ```bash
 $ npm start
@@ -164,10 +159,10 @@ $ npm t
 #### cli dev
 
 ```bash
-# port
+# 端口调试
 $ cd test && node ../bin/index.js -p 2000
 
-# config
+# 配置调试
 $ cd test && node ../bin/index.js -c
 ```
 
