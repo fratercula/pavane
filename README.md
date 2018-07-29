@@ -96,6 +96,16 @@ $ pavane -p 2000
 $ pv -p 2222
 ```
 
+#### custom path
+
+```bash
+# watch `src`, and set `dist` server path
+$ pavane -w src -s dist
+
+# or
+$ pv -w src -s dist
+```
+
 #### use config
 
 setup `pavane.config.js`

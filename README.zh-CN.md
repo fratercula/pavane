@@ -91,6 +91,16 @@ $ pavane -p 2000
 $ pv -p 2222
 ```
 
+#### 自定义路径
+
+```bash
+# 监听 `src` 目录, 设置 `dist` 目录为 server 静态目录
+$ pavane -w src -s dist
+
+# or
+$ pv -w src -s dist
+```
+
 #### 使用配置文件
 
 新建 `pavane.config.js`

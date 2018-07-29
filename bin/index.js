@@ -4,20 +4,35 @@ const { join } = require('path')
 const minimist = require('minimist')
 const Server = require('../')
 
-const { p, c } = minimist(process.argv.slice(2))
+const {
+  p,
+  c,
+  w,
+  s,
+} = minimist(process.argv.slice(2))
+const cwd = process.cwd()
 
-let server = new Server()
 let port = p === true ? undefined : Number(p)
+let watches = w || true
+let publics = s || true
+
+watches = watches === true ? undefined : join(cwd, watches)
+publics = publics === true ? undefined : join(cwd, publics)
+
+let server = new Server(watches, publics)
 
 if (c) {
   try {
     const {
-      watches,
-      publics,
+      watches: ws,
+      publics: ps,
       port: pt,
       listener,
     // eslint-disable-next-line global-require, import/no-dynamic-require
-    } = require(join(process.cwd(), 'pavane.config.js'))
+    } = require(join(cwd, 'pavane.config.js'))
+
+    watches = ws || watches
+    publics = ps || publics
 
     server = new Server(watches, publics)
     port = Number(pt)
