@@ -43,7 +43,7 @@
     "istanbul": "^1.1.0-alpha.1",
     "mocha": "^5.2.0",
     "power-assert": "^1.6.0",
-    "puppeteer": "^1.6.1",
+    "puppeteer-cn": "^0.1.7",
     "sinon": "^6.1.4"
   }
 }

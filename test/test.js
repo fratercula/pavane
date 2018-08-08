@@ -1,7 +1,7 @@
 const { writeFileSync, mkdirSync, rmdirSync } =  require('fs')
 const { join } = require('path')
 const http = require('http')
-const puppeteer = require('puppeteer')
+const puppeteer = require('puppeteer-cn')
 const assert = require('power-assert')
 const sinon = require('sinon')
 const Server = require('../')
