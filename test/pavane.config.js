@@ -28,5 +28,5 @@ module.exports = {
     }
 
     log(`${event} ${path}`)
-  }
+  },
 }

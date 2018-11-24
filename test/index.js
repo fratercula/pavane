@@ -1,1 +1,3 @@
-console.log('Pavane')
+/* global window */
+
+window.console.log('Pavane')

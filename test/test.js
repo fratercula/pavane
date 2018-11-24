@@ -1,4 +1,6 @@
-const { writeFileSync, mkdirSync, rmdirSync } =  require('fs')
+/* global describe it */
+
+const { writeFileSync, mkdirSync, rmdirSync } = require('fs')
 const { join } = require('path')
 const http = require('http')
 const puppeteer = require('puppeteer-cn')
@@ -7,25 +9,21 @@ const sinon = require('sinon')
 const Server = require('../')
 
 function sleep(t = 1000) {
-  return new Promise(resolve => {
-    setTimeout(resolve, t)
-  })
+  return new Promise(resolve => setTimeout(resolve, t))
 }
 
 function request(path = '/') {
-  return new Promise(resolve => {
-    http.get({
-      host: '127.0.0.1',
-      port: '2333',
-      path,
-    }, (res) => {
-      resolve(res.statusCode)
-    })
-  })
+  return new Promise(resolve => http.get({
+    host: '127.0.0.1',
+    port: '2333',
+    path,
+  }, (res) => {
+    resolve(res.statusCode)
+  }))
 }
 
 describe('pavane', () => {
-  it('static server', async function () {
+  it('static server', async () => {
     const spy = sinon.spy(global.console, 'log')
     const server = new Server(__dirname, __dirname)
     const emptyPath = join(__dirname, 'empty')
@@ -73,7 +71,7 @@ describe('pavane', () => {
     assert(server.status.running === false)
   })
 
-  it('liveReload', async function () {
+  it('liveReload', async function liveReload() {
     this.timeout(10000)
 
     const msgs = []
