@@ -72,7 +72,7 @@ describe('pavane', () => {
   })
 
   it('liveReload', async function liveReload() {
-    this.timeout(10000)
+    this.timeout(30000)
 
     const msgs = []
     const server = new Server(__dirname, __dirname)
