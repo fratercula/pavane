@@ -46,7 +46,7 @@ module.exports = class extends StaticServer {
     this.trigger({
       ...defaultParams,
       event: 'info',
-      message: `Current clients: ${this.clients.length}`,
+      message: `clients: ${this.clients.length}`,
     })
   }
 
@@ -93,7 +93,7 @@ module.exports = class extends StaticServer {
       this.trigger({
         ...defaultParams,
         event: 'info',
-        message: `Current clients: ${this.clients.length}`,
+        message: `clients: ${this.clients.length}`,
       })
     })
 

@@ -1,6 +1,6 @@
 {
   "name": "pavane",
-  "version": "0.1.4",
+  "version": "0.1.5",
   "description": "LiveReload Server",
   "main": "index.js",
   "preferGlobal": true,
