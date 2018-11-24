@@ -8,6 +8,11 @@
     "pavane": "./bin/index.js",
     "pv": "./bin/index.js"
   },
+  "files": [
+    "bin",
+    "lib",
+    "index.js"
+  ],
   "scripts": {
     "start": "cd test && node ../bin/index.js",
     "test": "npm run test:lint && npm run test:cover",
