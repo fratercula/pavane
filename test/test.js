@@ -3,7 +3,7 @@
 const { writeFileSync, mkdirSync, rmdirSync } = require('fs')
 const { join } = require('path')
 const http = require('http')
-const puppeteer = require('puppeteer-cn')
+const puppeteer = require('puppeteer')
 const assert = require('power-assert')
 const sinon = require('sinon')
 const Server = require('../')
@@ -72,7 +72,7 @@ describe('pavane', () => {
   })
 
   it('liveReload', async function liveReload() {
-    this.timeout(30000)
+    this.timeout(10000)
 
     const msgs = []
     const server = new Server(__dirname, __dirname)
