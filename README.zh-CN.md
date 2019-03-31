@@ -32,13 +32,14 @@ const publics = __dirname
 
 const server = new Pavane(watches, publics)
 
-server.listener = (args) => {
+server.subscribe = (args) => {
   const {
-    event,        // 文件信息 'add', 'change', 或者服务器信息 'info' ...
-    path,         // 修改路径，当事件为 'info', 为空
-    message,      // 服务器信息，如果事件为 'info', 此时为空
-    reloadCss,    // 触发客户端 css 重置
-    reloadPage,   // 触发客户端刷新页面
+    event,        // 监听文件变化事件
+    path,         // 监听文件变化路径
+    port,         // server 初始化端口
+    clients,      // 客户端数量
+    status,       // 当前状态 `stop`, `start`, `running`
+    trigger,      // 触发事件函数，`css` 为重新加载样式，`page` 为刷新页面，可以设定其他状态
   } = args
   const { log } = global.console
 

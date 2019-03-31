@@ -71,6 +71,6 @@ module.exports = class extends StaticServer {
       this.$subscribe({ ...defaultParams, clients: this.clients.length })
     })
 
-    this.trigger({ ...defaultParams, port, status: 'start' })
+    this.$subscribe({ ...defaultParams, port, status: 'start' })
   }
 }
