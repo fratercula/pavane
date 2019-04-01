@@ -2,6 +2,7 @@
 
 ## 1.0.0
 
+- fix: sub path url
 - chore: update dependencies
 - test: use nyc test coverage
 - refactor: css append
