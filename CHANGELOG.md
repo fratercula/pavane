@@ -6,6 +6,7 @@
 - chore: update dependencies
 - test: use nyc test coverage
 - refactor: css append
+- refactor: list files index
 
 ## 0.1.5
 
