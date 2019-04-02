@@ -8,6 +8,7 @@
 - refactor: css append
 - refactor: list files index
 - refactor: inject script
+- feat: event subscriber
 
 ## 0.1.5
 

@@ -1,12 +1,10 @@
-/* global describe it */
-
 const { writeFileSync, mkdirSync, rmdirSync } = require('fs')
 const { join } = require('path')
 const http = require('http')
 const puppeteer = require('puppeteer')
 const assert = require('power-assert')
-const sinon = require('sinon')
 const Server = require('../')
+const defaultSubscribe = require('../lib/subscribe')
 
 function sleep(t = 1000) {
   return new Promise(resolve => setTimeout(resolve, t))
@@ -24,56 +22,49 @@ function request(path = '/') {
 
 describe('pavane', () => {
   it('static server', async () => {
-    const spy = sinon.spy(global.console, 'log')
-    const server = new Server(__dirname, __dirname)
-    const emptyPath = join(__dirname, 'empty')
+    const dir = join(__dirname, 'fixtures')
+    const server = new Server(dir, dir)
 
-    server.listener = 'not a function'
+    // subscribe
+    server.subscribe = 'not a function'
+    assert(server.$subscribe === defaultSubscribe)
+
+    // restart
+    let subData
+    server.subscribe = (data) => { subData = data }
+
     server.start()
-
-    server.trigger({ event: 'info', message: 'not a function' })
-    assert(spy.calledWith('not a function') === true)
-
+    assert(subData.status === 'start')
     server.start()
-    assert(spy.calledWith('The server is running...') === true)
+    assert(subData.status === 'running')
 
+    // request
+    const emptyPath = join(dir, 'empty')
     mkdirSync(emptyPath)
     let code = await request('/empty')
     assert(code === 404)
-    server.close()
     rmdirSync(emptyPath)
 
-    server.start()
     code = await request('/noexist')
     assert(code === 404)
-    server.close()
 
-    server.start()
     code = await request('/dir')
     assert(code === 200)
-    server.close()
 
-    server.start()
-    code = await request('/index.js')
+    code = await request('/console.js')
     assert(code === 200)
-    server.close()
 
-    server.start()
     code = await request('/_.js')
     assert(code === 200)
-    server.close()
 
-    server.start()
     code = await request()
     assert(code === 200)
 
     server.close()
-    assert(server.status.running === false)
   })
 
-  it('liveReload', async function liveReload() {
-    this.timeout(10000)
-
+  /*
+  it('liveReload', async () => {
     const msgs = []
     const server = new Server(__dirname, __dirname)
 
@@ -109,4 +100,5 @@ describe('pavane', () => {
 
     server.close()
   })
+  */
 })
