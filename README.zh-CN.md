@@ -72,11 +72,11 @@ server.subscribe = (args) => {
 
   log(`clients: ${clients}`) // 当前客户端数量
 }
-```
 
 server.start(2222) // 默认端口 2333
 
 server.close() // 关闭
+```
 
 客户端
 
