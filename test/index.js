@@ -10,12 +10,21 @@ function sleep(t = 1000) {
   return new Promise(resolve => setTimeout(resolve, t))
 }
 
-function request(path = '/') {
+function request(path = '/', type) {
   return new Promise(resolve => http.get({
     host: '127.0.0.1',
     port: '2333',
     path,
   }, (res) => {
+    if (type === 'content') {
+      res.setEncoding('utf8')
+      res.on('data', data => resolve(data))
+      return
+    }
+    if (type === 'headers') {
+      resolve(res.headers)
+      return
+    }
     resolve(res.statusCode)
   }))
 }
@@ -75,6 +84,21 @@ describe('pavane', () => {
     code = await request()
     assert(code === 200)
 
+    code = await request(`/${encodeURI('中文')}`)
+    assert(code === 302)
+
+    const data = await request('/home.html', 'content')
+    assert(data.includes('<script src="/_.js"></script>\n</head>') === true)
+
+    const headers = await request(`/${encodeURI('中文')}/st`, 'headers')
+    assert(headers['content-type'] === 'text/plain')
+
+    let page = await request(`/${encodeURI('中文')}/`, 'content')
+    assert(page.includes('<a href="/">../</a>') === true)
+
+    page = await request(`/${encodeURI('中文')}/child/`, 'content')
+    assert(page.includes('<a href="/中文/">../</a>') === true)
+
     server.close()
   })
 
@@ -98,6 +122,15 @@ describe('pavane', () => {
 
     assert(logs.includes('css') === true)
     assert(logs.includes('page') === true)
+
+    server.subscribe = ({ trigger }) => {
+      trigger('message')
+    }
+
+    writeFileSync(join(dir, 'pavane.html'), '<h1>Pavane</h1>')
+    await sleep()
+
+    assert(logs.includes('message') === true)
 
     await browser.close()
     server.close()
