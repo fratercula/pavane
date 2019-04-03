@@ -20,9 +20,24 @@ function request(path = '/') {
   }))
 }
 
+const dir = join(__dirname, 'fixtures')
+
 describe('pavane', () => {
+  it('default params', async () => {
+    const server = new Server()
+    assert(server.watches === process.cwd())
+    assert(server.publics === process.cwd())
+
+    server.start()
+    assert(await request() === 200)
+
+    server.start()
+    assert(await request() === 200)
+
+    server.close()
+  })
+
   it('static server', async () => {
-    const dir = join(__dirname, 'fixtures')
     const server = new Server(dir, dir)
 
     // subscribe
@@ -63,42 +78,28 @@ describe('pavane', () => {
     server.close()
   })
 
-  /*
   it('liveReload', async () => {
-    const msgs = []
-    const server = new Server(__dirname, __dirname)
+    const server = new Server(dir, dir)
+
+    const logs = []
 
     server.start()
 
     const browser = await puppeteer.launch()
     const page = await browser.newPage()
     await page.goto('http://127.0.0.1:2333/dir')
-    page.on('console', e => msgs.push(e.text()))
+    page.on('console', e => logs.push(e.text()))
 
     await sleep()
-    writeFileSync(join(__dirname, 'home.html'), '<h1>Pavane</h1>')
+    writeFileSync(join(dir, 'dir', 'index.css'), 'h1 { color: blanchedalmond }')
+    await sleep()
+    writeFileSync(join(dir, 'pavane.html'), '<h1>Pavane</h1>')
     await sleep()
 
-    assert(server.status.event === 'change')
-    assert(server.status.path === join(__dirname, 'home.html'))
-    assert(msgs.length === 4)
-
-    writeFileSync(join(__dirname, 'index.css'), 'body { background: #eee }')
-    await sleep()
-
-    assert(server.status.event === 'change')
-    assert(server.status.path === join(__dirname, 'index.css'))
-    assert(msgs[4] === 'css')
+    assert(logs.includes('css') === true)
+    assert(logs.includes('page') === true)
 
     await browser.close()
     server.close()
-
-    server.listener = args => msgs.push(args.event)
-    server.start()
-
-    assert(msgs[5] === 'info')
-
-    server.close()
   })
-  */
 })
