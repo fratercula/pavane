@@ -13,6 +13,8 @@ $ npm i pavane -g
 
 ## 使用
 
+服务端
+
 ```js
 const { join, extname } = require('path')
 const Pavane = require('pavane')
@@ -43,38 +45,55 @@ server.subscribe = (args) => {
   } = args
   const { log } = global.console
 
-  if (event === 'info') {
-    log(message)  // 输出服务器信息
+  if (status === 'start') {
+    log(`Server running: http://127.0.0.1:${port}\n  CTRL + C to shutdown`)
     return
   }
 
-  const ext = extname(path)
-
-  if (ext === '.css') {
-    reloadCss()   // 重置 css
-  } else {
-    reloadPage()  // 刷新页面
+  if (status === 'running') {
+    log('Server is already running...')
+    return
   }
 
-  log(`${event} ${path}`) // 输出当前信息
+  if (event) {
+    if (...) {
+      trigger('custom message') // 自定义
+      return
+    }
+
+    if (extname(path) === '.css') {
+      trigger('css') // 重新加载样式
+    } else {
+      trigger('page') // 刷新页面
+    }
+    log(`${event}: ${path}`)
+    return
+  }
+
+  log(`clients: ${clients}`) // 当前客户端数量
 }
+```
 
 server.start(2222) // 默认端口 2333
 
-// 获取当前服务器状态
-console.log(server.status)
-/*
-{
-  running: true,
-  event: 'change',
-  path: 'file path',
+server.close() // 关闭
+
+客户端
+
+```js
+// 默认情况下，浏览器会监听服务器信息并自动刷新 style 或者 page
+// 你可以自定义监听函数
+// 设置以下 script 在 `<head></head>` 标签后面
+
+window.__PAVANE__.subscribe = (data) => {
+  console.log(data) // 服务端信息
+  // ...
 }
-*/
 ```
 
-### CLI 使用
+## CLI
 
-#### 默认
+**默认**
 
 ```bash
 $ pavane
@@ -83,7 +102,7 @@ $ pavane
 $ pv
 ```
 
-#### 自定义端口
+**端口**
 
 ```bash
 $ pavane -p 2000
@@ -92,7 +111,7 @@ $ pavane -p 2000
 $ pv -p 2222
 ```
 
-#### 自定义路径
+**自定义路径**
 
 ```bash
 # 监听 `src` 目录, 设置 `dist` 目录为 server 静态目录
@@ -102,7 +121,7 @@ $ pavane -w src -s dist
 $ pv -w src -s dist
 ```
 
-#### 使用配置文件
+**使用配置文件**
 
 新建 `pavane.config.js`
 
@@ -112,34 +131,14 @@ const { extname } = require('path')
 module.exports = {
   watches: ['*.js', '*.css', '*.html', '**/*.html'],
   publics: __dirname,
-  port: 2222, // server port
-  listener(args) {
-    const {
-      event,
-      path,
-      message,
-      reloadCss,
-      reloadPage,
-    } = args
-    const { log } = global.console
-
-    if (event === 'info') {
-      log(message)
-      return
-    }
-
-    const ext = extname(path)
-
-    if (ext === '.css') {
-      reloadCss()
-    } else {
-      reloadPage()
-    }
-
-    log(`${event} ${path}`)
-  }
+  port: 2222, // 端口
+  subscribe(args) {
+    // ...
+  },
 }
 ```
+
+使用配置启动
 
 ```bash
 # 使用配置启动
@@ -149,7 +148,7 @@ $ pavane -c
 $ pv -c
 ```
 
-### 在其他服务器上使用
+## 其他服务器上使用
 
 如果你的 web 应用是 python，php 或者其他产生的 web 服务，可以添加下面的 script 到你的应用 html 模板上
 
@@ -161,28 +160,23 @@ $ pv -c
 ## 开发
 
 ```bash
+# server
 $ npm start
-```
 
-#### lint
-
-```bash
+# lint
 $ npm run test:lint
-```
 
-#### test
+# unit test
+$ npm run test:unit
 
-```bash
-$ npm t
-```
+# coverage test
+$ npm run test:unit
 
-#### cli dev
-
-```bash
-# 端口调试
+# cli
+# port
 $ cd test && node ../bin/index.js -p 2000
 
-# 配置调试
+# config
 $ cd test && node ../bin/index.js -c
 ```
 

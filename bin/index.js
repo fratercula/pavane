@@ -27,7 +27,7 @@ if (c) {
       watches: ws,
       publics: ps,
       port: pt,
-      listener,
+      subscribe,
     // eslint-disable-next-line global-require, import/no-dynamic-require
     } = require(join(cwd, 'pavane.config.js'))
 
@@ -36,8 +36,8 @@ if (c) {
 
     server = new Server(watches, publics)
     port = Number(pt)
-    if (listener) {
-      server.listener = listener
+    if (subscribe) {
+      server.subscribe = subscribe
     }
   } catch ({ message }) {
     global.console.log(message)
