@@ -1,5 +1,7 @@
 const { extname } = require('path')
 
+const { log } = global.console
+
 module.exports = {
   watches: ['*.js', '*.css', '*.html', '**/*.html'],
   publics: __dirname,
@@ -8,25 +10,32 @@ module.exports = {
     const {
       event,
       path,
-      message,
-      reloadCss,
-      reloadPage,
+      port,
+      clients,
+      trigger,
+      status,
     } = args
-    const { log } = global.console
 
-    if (event === 'info') {
-      log(message)
+    if (status === 'start') {
+      log(`Server running: http://127.0.0.1:${port}\n  CTRL + C to shutdown`)
       return
     }
 
-    const ext = extname(path)
-
-    if (ext === '.css') {
-      reloadCss()
-    } else {
-      reloadPage()
+    if (status === 'running') {
+      log('Server is already running...')
+      return
     }
 
-    log(`${event} ${path}`)
+    if (event) {
+      if (extname(path) === '.css') {
+        trigger('css')
+      } else {
+        trigger('page')
+      }
+      log(`${event}: ${path}`)
+      return
+    }
+
+    log(`clients: ${clients}`)
   },
 }

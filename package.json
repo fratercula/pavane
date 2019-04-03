@@ -1,6 +1,6 @@
 {
   "name": "pavane",
-  "version": "0.1.5",
+  "version": "1.0.0",
   "description": "LiveReload Server",
   "main": "index.js",
   "preferGlobal": true,
@@ -14,11 +14,12 @@
     "index.js"
   ],
   "scripts": {
-    "start": "cd test && node ../bin/index.js",
+    "start": "cd test/fixtures && node ../../bin/index.js",
+    "test:lint": "eslint .",
+    "test:unit": "mocha --timeout 30000 --reporter dot --require intelli-espower-loader ./test/index.js",
+    "test:cover": "nyc npm run test:unit",
     "test": "npm run test:lint && npm run test:cover",
-    "test:unit": "mocha --reporter dot --require intelli-espower-loader ./test/test.js",
-    "test:cover": "istanbul cover --print both _mocha ./test/test.js",
-    "test:lint": "eslint ."
+    "coverage": "nyc report --reporter=lcov npm run test:unit"
   },
   "repository": {
     "type": "git",
@@ -28,27 +29,26 @@
     "livereload",
     "server"
   ],
-  "author": "LoeiFy@gmail.com",
+  "author": "LoeiFy <LoeiFy@gmail.com>",
   "license": "MIT",
   "bugs": {
     "url": "https://github.com/fratercula/pavane/issues"
   },
   "homepage": "https://github.com/fratercula/pavane#readme",
   "dependencies": {
-    "chokidar": "^2.0.4",
-    "mime": "^2.3.1",
+    "chokidar": "^2.1.5",
+    "mime": "^2.4.0",
     "minimist": "^1.2.0",
-    "ws": "^5.2.2"
+    "ws": "^6.2.1"
   },
   "devDependencies": {
-    "eslint": "^4.19.1",
-    "eslint-config-airbnb-base": "^13.0.0",
-    "eslint-plugin-import": "^2.13.0",
+    "eslint": "^5.16.0",
+    "eslint-config-airbnb-base": "^13.1.0",
+    "eslint-plugin-import": "^2.16.0",
     "intelli-espower-loader": "^1.0.1",
-    "istanbul": "^1.1.0-alpha.1",
-    "mocha": "^5.2.0",
-    "power-assert": "^1.6.0",
-    "puppeteer": "*",
-    "sinon": "^6.1.4"
+    "mocha": "^6.0.2",
+    "nyc": "^13.3.0",
+    "power-assert": "^1.6.1",
+    "puppeteer": "^1.14.0"
   }
 }

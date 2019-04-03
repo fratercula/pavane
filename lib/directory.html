@@ -2,20 +2,44 @@
 <html>
 <head>
 <meta charset="UTF-8" />
+<title> Index of $path </title>
 <style>
 body {
-  margin: 50px;
+  padding-left: 20px;
+}
+p {
+  margin: 5px 0;
+  font-size: 16px;
+}
+span {
+  display: inline-block;
+  text-overflow: ellipsis;
+  overflow: hidden;
+  width: 200px;
+}
+.size {
+  width: 150px;
 }
 a {
   display: inline-block;
-  margin: 20px 20px 0 0;
-  font-size: 20px;
+  width: 200px;
+  letter-spacing: .5px;
+  text-overflow: ellipsis;
+  overflow: hidden;
 }
 </style>
-<title> Directory </title>
 </head>
 <body>
-<h1>Directory</h1>
+<h1>Index of $path</h1>
+<hr />
+<h3>
+  <span class="name">Name</span>
+  <span class="size">Size</span>
+  <span class="time">Last Modified</span>
+  <span class="type">Type</span>
+</h3>
 $links
+<hr />
+<em>Pavane @$version</em>
 </body>
 </html>

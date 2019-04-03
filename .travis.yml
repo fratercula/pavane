@@ -9,6 +9,10 @@ cache:
   directories:
     - node_modules
 
+branches:
+  only:
+  - master
+
 node_js:
   - "8"
 
@@ -21,5 +25,6 @@ script:
   - npm test
 
 after_script:
+  - npm run coverage
   - npm install -g codecov
   - cat ./coverage/lcov.info | codecov
